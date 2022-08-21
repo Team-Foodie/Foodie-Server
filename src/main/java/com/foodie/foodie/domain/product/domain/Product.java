@@ -19,7 +19,7 @@ public class Product extends BaseEntity {
     @Column(columnDefinition = "VARCHAR(255)", nullable = false)
     private String productName;
 
-    @Column(columnDefinition = "INTEGER", nullable = false)
+    @Column(nullable = false)
     private Integer productPrice;
 
     @Builder

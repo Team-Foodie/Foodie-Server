@@ -17,13 +17,13 @@ import javax.persistence.Table;
 @Table(name = "account")
 public class User extends BaseEntity {
 
-    @Column(columnDefinition = "VARCHAR(60)", nullable = false, unique = true)
+    @Column(columnDefinition = "VARCHAR(50)", nullable = false, unique = true)
     private String email;
 
-    @Column(columnDefinition = "VARCHAR(60)", nullable = false)
+    @Column(columnDefinition = "VARCHAR(20)", nullable = false)
     private String password;
 
-    @Column(columnDefinition = "VARCHAR(60)", nullable = false)
+    @Column(columnDefinition = "VARCHAR(10)", nullable = false)
     private String name;
 
     @Builder

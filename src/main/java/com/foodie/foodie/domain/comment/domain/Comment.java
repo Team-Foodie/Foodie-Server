@@ -21,7 +21,7 @@ import java.time.LocalDateTime;
 @Table(name = "comment")
 public class Comment extends BaseEntity {
 
-    @Column(columnDefinition = "VARCHAR(60)", nullable = false)
+    @Column(columnDefinition = "VARCHAR(255)", nullable = false)
     private String content;
 
     private LocalDateTime updatedAt;

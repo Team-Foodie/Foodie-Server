@@ -15,7 +15,7 @@ import javax.persistence.*;
 @Table(name = "scrap")
 public class Scrap extends BaseEntity {
 
-    @Column(columnDefinition = "VARCHAR(60)", nullable = false)
+    @Column(columnDefinition = "VARCHAR(20)", nullable = false)
     private String type;
 
     @ManyToOne(fetch = FetchType.LAZY)
