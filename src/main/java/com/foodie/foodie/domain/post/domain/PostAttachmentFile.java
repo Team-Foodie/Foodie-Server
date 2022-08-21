@@ -14,7 +14,7 @@ import javax.persistence.*;
 @Table(name = "post_attachment_file")
 public class PostAttachmentFile extends BaseEntity {
 
-    @Column(columnDefinition = "VARCHAR(255)", nullable = false)
+    @Column(columnDefinition = "TEXT", nullable = false)
     private String fileAttachmentUrl;
 
     @ManyToOne(fetch = FetchType.LAZY)
