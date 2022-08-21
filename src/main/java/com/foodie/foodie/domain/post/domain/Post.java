@@ -17,7 +17,7 @@ import javax.validation.constraints.NotNull;
 @Table(name = "post")
 public class Post extends BaseEntity {
 
-    @Column(columnDefinition = "VARCHAR(255)", nullable = false)
+    @Column(columnDefinition = "VARCHAR(60)", nullable = false)
     private String title;
 
     @Column(columnDefinition = "TEXT", nullable = false)
