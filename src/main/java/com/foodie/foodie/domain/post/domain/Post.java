@@ -20,7 +20,7 @@ public class Post extends BaseEntity {
     @Column(columnDefinition = "VARCHAR(255)", nullable = false)
     private String title;
 
-    @Column(columnDefinition = "VARCHAR(255)", nullable = false)
+    @Column(columnDefinition = "TEXT", nullable = false)
     private String content;
 
     @Column(columnDefinition = "VARCHAR(20)", nullable = false)
