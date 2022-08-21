@@ -18,7 +18,7 @@ public class PostAttachmentFile extends BaseEntity {
     private String fileAttachmentUrl;
 
     @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "feed_id", nullable = false)
+    @JoinColumn(name = "post_id", nullable = false)
     private Post post;
 
     private Boolean isThumbnail;
