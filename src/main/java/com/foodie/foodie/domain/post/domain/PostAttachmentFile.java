@@ -21,6 +21,7 @@ public class PostAttachmentFile extends BaseEntity {
     @JoinColumn(name = "post_id", nullable = false)
     private Post post;
 
+    @Column(columnDefinition = "TEXT", nullable = false)
     private Boolean isThumbnail;
 
     @Builder
