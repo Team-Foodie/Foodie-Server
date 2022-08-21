@@ -16,7 +16,7 @@ public abstract class BaseEntity {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private UUID idx;
+    private Long idx;
 
     @CreatedDate
     @NotNull
