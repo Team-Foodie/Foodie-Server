@@ -22,10 +22,4 @@ public abstract class BaseEntity {
     @NotNull
     private LocalDateTime createdAt;
 
-    public ResponseItem toResponseItem() {
-        ResponseItem responseItem = new ResponseItem();
-        responseItem.setPageId(idx.toString() + createdAt.toString());
-        return responseItem;
-    }
-
 }
