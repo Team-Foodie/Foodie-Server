@@ -16,7 +16,7 @@ import javax.persistence.Table;
 @Table(name = "product")
 public class Product extends BaseEntity {
 
-    @Column(columnDefinition = "VARCHAR(255)", nullable = false)
+    @Column(columnDefinition = "VARCHAR(50)", nullable = false)
     private String productName;
 
     @Column(nullable = false)
