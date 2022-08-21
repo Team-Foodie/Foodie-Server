@@ -23,8 +23,9 @@ public class Post extends BaseEntity {
     @Column(columnDefinition = "TEXT", nullable = false)
     private String content;
 
-    @Column(columnDefinition = "VARCHAR(20)", nullable = false)
-    private String keyword;
+    @NotNull
+    @Column(columnDefinition = "TEXT", nullable = false)
+    private String keywordList;
 
     @Column(columnDefinition = "VARCHAR(20)", nullable = false)
     private String category;
@@ -52,11 +53,11 @@ public class Post extends BaseEntity {
     private Account account;
 
     @Builder
-    public Post(String title, String content, String keyword, String category, String theme,
+    public Post(String title, String content, String keywordList, String category, String theme,
                 String localKeyword, Integer likeCount, Boolean isDiscount, Boolean isPopular, Account account) {
         this.title = title;
         this.content = content;
-        this.keyword = keyword;
+        this.keywordList = keywordList;
         this.category = category;
         this.theme = theme;
         this.localKeyword = localKeyword;
