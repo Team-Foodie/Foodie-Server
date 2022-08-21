@@ -1,1 +1,16 @@
+spring:
+  datasource:
+    driver-class-name: org.postgresql.Driver
+    url: {JDBC_URL}
+    username: {JDBC_USER}
+    password: {JDBC_PWD}
 
+  jpa:
+    database: postgresql
+    database-platform: org.hibernate.dialect.PostgreSQLDialect
+    show-sql: true
+    hibernate:
+      ddl-auto: validate
+
+  jackson:
+    property-naming-strategy: SNAKE_CASE
