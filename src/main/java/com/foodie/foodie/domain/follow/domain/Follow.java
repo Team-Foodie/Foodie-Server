@@ -1,6 +1,6 @@
 package com.foodie.foodie.domain.follow.domain;
 
-import com.foodie.foodie.domain.user.domain.User;
+import com.foodie.foodie.domain.account.domain.Account;
 import com.foodie.foodie.global.entity.BaseEntity;
 import lombok.AccessLevel;
 import lombok.Builder;
@@ -20,16 +20,16 @@ import javax.persistence.Table;
 public class Follow extends BaseEntity {
 
     @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "user_id", nullable = false)
-    private User user;
+    @JoinColumn(name = "account_id", nullable = false)
+    private Account account;
 
     @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "target_user_id", nullable = false)
-    private User targetUser;
+    @JoinColumn(name = "target_account_id", nullable = false)
+    private Account targetAccount;
 
     @Builder
-    public Follow(User user, User targetUser) {
-        this.user = user;
-        this.targetUser = targetUser;
+    public Follow(Account account, Account targetAccount) {
+        this.account = account;
+        this.targetAccount = targetAccount;
     }
 }
