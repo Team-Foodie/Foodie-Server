@@ -38,7 +38,7 @@ public class CommentJpo extends BaseEntity {
 
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "post_idx", nullable = false)
-    private PostJpo post;
+    private PostJpo postJpo;
 
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "parent_comment_idx", nullable = false)
