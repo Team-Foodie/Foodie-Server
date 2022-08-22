@@ -2,7 +2,7 @@ name: FOODIE - CD
 
 on:
   push:
-    branches: [ main ]
+    branches: [ master ]
 
 jobs:
   build:

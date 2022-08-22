@@ -3,7 +3,7 @@ name: FOODIE - CI
 on:
   push:
     branches:
-      - main
+      - master
   pull_request:
     types: [opened, synchronize, reopened]
     branches: [ main ]
@@ -27,4 +27,3 @@ jobs:
         uses: gradle/gradle-build-action@4137be6a8bf7d7133955359dbd952c0ca73b1021
         with:
           arguments: build
-          
