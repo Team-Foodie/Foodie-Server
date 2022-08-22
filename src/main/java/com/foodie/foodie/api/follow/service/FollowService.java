@@ -5,6 +5,7 @@ import com.foodie.foodie.domain.account.domain.repository.AccountRepository;
 import com.foodie.foodie.domain.follow.domain.Follow;
 import com.foodie.foodie.domain.follow.domain.jpo.FollowJpo;
 import com.foodie.foodie.domain.follow.domain.repository.FollowRepository;
+import com.foodie.foodie.exception.InvalidAccountException;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
@@ -21,7 +22,7 @@ public class FollowService {
     public void getFollowInfoByAccount(Long accountId) {
         Account account = accountRepository.findById(accountId).get().toDomain();
         if (account == null) {
-            throw new RuntimeException("account doesn't exist."); // TODO: exception class 만들어 처리 할 것.
+            throw new InvalidAccountException("account doesn't exist.");
         }
         List<Long> targetIdList = followRepository.findBySourceId(account.getIdx());
         accountRepository.findAllById(targetIdList);
