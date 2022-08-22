@@ -1,5 +1,6 @@
 package com.foodie.foodie.domain.scrap.domain;
 
+import com.foodie.foodie.domain.account.domain.jpo.AccountJpo;
 import com.foodie.foodie.domain.post.domain.Post;
 import com.foodie.foodie.domain.account.domain.Account;
 import com.foodie.foodie.global.entity.BaseEntity;
@@ -20,15 +21,15 @@ public class Scrap extends BaseEntity {
 
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "account_id", nullable = false)
-    private Account account;
+    private AccountJpo accountJpo;
 
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "post_id", nullable = false)
     private Post post;
 
-    public Scrap(String type, Account account, Post post) {
+    public Scrap(String type, AccountJpo accountJpo, Post post) {
         this.type = type;
-        this.account = account;
+        this.accountJpo = accountJpo;
         this.post = post;
     }
 }

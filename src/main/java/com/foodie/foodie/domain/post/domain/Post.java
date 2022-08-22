@@ -1,6 +1,6 @@
 package com.foodie.foodie.domain.post.domain;
 
-import com.foodie.foodie.domain.account.domain.Account;
+import com.foodie.foodie.domain.account.domain.jpo.AccountJpo;
 import com.foodie.foodie.global.entity.BaseEntity;
 import lombok.AccessLevel;
 import lombok.Builder;
@@ -50,11 +50,11 @@ public class Post extends BaseEntity {
 
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "account_id", nullable = false)
-    private Account account;
+    private AccountJpo accountJpo;
 
     @Builder
     public Post(String title, String content, String keywordList, String category, String theme,
-                String localKeyword, Integer likeCount, Boolean isDiscount, Boolean isPopular, Account account) {
+                String localKeyword, Integer likeCount, Boolean isDiscount, Boolean isPopular, AccountJpo accountJpo) {
         this.title = title;
         this.content = content;
         this.keywordList = keywordList;
@@ -64,7 +64,7 @@ public class Post extends BaseEntity {
         this.likeCount = likeCount;
         this.isDiscount = isDiscount;
         this.isPopular = isPopular;
-        this.account = account;
+        this.accountJpo = accountJpo;
     }
 
 }
