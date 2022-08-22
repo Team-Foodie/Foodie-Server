@@ -1,5 +1,8 @@
 spring:
   datasource:
+    url: ${DB_URL}
+    username: ${DB_USER}
+    password: ${DB_PWD}
     driver-class-name: org.postgresql.Driver
     url: jdbc:postgresql://foodie-develop.csbvgeckdsn4.ap-northeast-2.rds.amazonaws.com:5432/foodie
     username: foodie
@@ -10,7 +13,30 @@ spring:
     database-platform: org.hibernate.dialect.PostgreSQLDialect
     show-sql: true
     hibernate:
-      ddl-auto: validate
+      ddl-auto: update
 
   jackson:
     property-naming-strategy: LOWER_CAMEL_CASE
+
+cloud:
+  aws:
+    region:
+      static: ${AWS_S3_REGION:ap-northeast-2}
+    stack:
+      auto: false
+    credentials:
+      access-key: ${AWS_S3_ACCESS:s3_access}
+      secret-key: ${AWS_S3_SECRET:s3_secret}
+
+aws:
+  s3:
+    url: ${AWS_S3_URL}
+    bucket: ${AWS_S3_BUCKET}
+    foodie-folder: ${AWS_S3_FOODIE_FOLDER:foodie/}
+
+logging:
+  level:
+    com:
+      amazonaws:
+        util:
+          EC2MetadataUtils: error
