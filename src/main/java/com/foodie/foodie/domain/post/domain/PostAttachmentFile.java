@@ -15,7 +15,7 @@ import javax.persistence.*;
 public class PostAttachmentFile extends BaseEntity {
 
     @Column(columnDefinition = "TEXT", nullable = false)
-    private String fileAttachmentUrl;
+    private String url;
 
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "post_id", nullable = false)
@@ -25,8 +25,8 @@ public class PostAttachmentFile extends BaseEntity {
     private Boolean isThumbnail;
 
     @Builder
-    public PostAttachmentFile(String fileAttachmentUrl, Post post, Boolean isThumbnail) {
-        this.fileAttachmentUrl = fileAttachmentUrl;
+    public PostAttachmentFile(String url, Post post, Boolean isThumbnail) {
+        this.url = url;
         this.post = post;
         this.isThumbnail = isThumbnail;
     }

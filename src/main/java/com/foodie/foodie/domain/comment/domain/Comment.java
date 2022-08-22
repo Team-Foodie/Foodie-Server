@@ -1,7 +1,8 @@
 package com.foodie.foodie.domain.comment.domain;
 
+import com.foodie.foodie.domain.account.domain.jpo.AccountJpo;
 import com.foodie.foodie.domain.post.domain.Post;
-import com.foodie.foodie.domain.account.domain.Account;
+
 import com.foodie.foodie.global.entity.BaseEntity;
 import lombok.AccessLevel;
 import lombok.Builder;
@@ -31,8 +32,8 @@ public class Comment extends BaseEntity {
     private Integer likeCount;
 
     @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "account_id", nullable = false)
-    private Account account;
+    @JoinColumn(name = "account_idx", nullable = false)
+    private AccountJpo accountJpo;
 
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "post_id", nullable = false)
@@ -43,11 +44,11 @@ public class Comment extends BaseEntity {
     private Comment parentComment;
 
     @Builder
-    public Comment(String content, LocalDateTime updatedAt, Integer likeCount, Account account, Post post, Comment parentComment) {
+    public Comment(String content, LocalDateTime updatedAt, Integer likeCount, AccountJpo accountJpo, Post post, Comment parentComment) {
         this.content = content;
         this.updatedAt = updatedAt;
         this.likeCount = likeCount;
-        this.account = account;
+        this.accountJpo = accountJpo;
         this.post = post;
         this.parentComment = parentComment;
     }
