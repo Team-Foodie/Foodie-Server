@@ -24,7 +24,7 @@ public class ProductJpo extends BaseEntity {
     @Column(nullable = false)
     private Integer price;
 
-    @Column(columnDefinition = "VARCHAR(50)", nullable = false)
+    @Column(columnDefinition = "TEXT", nullable = false)
     private String productIntroduction;
 
     public ProductJpo(Product product) {
