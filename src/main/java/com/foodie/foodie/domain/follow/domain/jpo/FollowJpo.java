@@ -6,7 +6,6 @@ import com.foodie.foodie.global.entity.BaseEntity;
 import lombok.AccessLevel;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
-import org.springframework.beans.BeanUtils;
 
 import javax.persistence.*;
 
@@ -23,10 +22,6 @@ public class FollowJpo extends BaseEntity {
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "target_account_idx", nullable = false)
     private AccountJpo targetAccountJpo;
-
-    public FollowJpo(Follow follow) {
-        BeanUtils.copyProperties(follow, this);
-    }
 
     public Follow toDomain() {
         Follow follow = new Follow();
