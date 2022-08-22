@@ -6,6 +6,7 @@ import com.foodie.foodie.api.follow.service.FollowService;
 import com.foodie.foodie.common.model.RestResponseData;
 import com.foodie.foodie.common.model.ResultCode;
 import com.foodie.foodie.domain.follow.domain.Follow;
+import com.foodie.foodie.exception.InvalidAccountException;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.HttpStatus;
@@ -21,13 +22,19 @@ public class FollowController {
 
     @GetMapping("{accountId}")
     public ResponseEntity<RestResponseData<FollowResponse>> getFollowInfo(@PathVariable Long accountId) {
-        log.info("FOLW:INFO:RQST::: 팔로우 페이지 요청. accountId = ({})", accountId);
+        log.info("FOLW:INFO:RQST::: 팔로우 정보 요청. accountId = ({})", accountId);
 
-        followService.getFollowInfoByAccount(accountId);
+        try {
+            followService.getFollowInfoByAccount(accountId);
 
-        FollowResponse followResponse = new FollowResponse();
-        log.info("FOLW:INFO:RESP::: 팔로우 페이지 응답 성공. accountId = ({})", accountId);
-        return new RestResponseData<>(ResultCode.SUCCESS, followResponse).buildResponseEntity(HttpStatus.OK);
+            FollowResponse followResponse = new FollowResponse();
+            log.info("FOLW:INFO:RESP::: 팔로우 정보 응답 성공. accountId = ({})", accountId);
+            return new RestResponseData<>(ResultCode.SUCCESS, followResponse).buildResponseEntity(HttpStatus.OK);
+        } catch (InvalidAccountException e) {
+            log.info("FOLW:INFO:FAIL::: 존재하지 않는 계정 정보. accountId = ({})", accountId);
+            return new RestResponseData<FollowResponse>(ResultCode.INVALID_STATE)
+                    .buildResponseEntity(HttpStatus.BAD_REQUEST);
+        }
     }
 
     @PostMapping("{accountId}")
