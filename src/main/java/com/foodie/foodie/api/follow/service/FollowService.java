@@ -1,7 +1,6 @@
 package com.foodie.foodie.api.follow.service;
 
 import com.foodie.foodie.domain.account.domain.Account;
-import com.foodie.foodie.domain.account.domain.jpo.AccountJpo;
 import com.foodie.foodie.domain.account.domain.repository.AccountRepository;
 import com.foodie.foodie.domain.follow.domain.Follow;
 import com.foodie.foodie.domain.follow.domain.jpo.FollowJpo;
@@ -22,17 +21,13 @@ public class FollowService {
     private final AccountRepository accountRepository;
     private final FollowRepository followRepository;
     public List<Account> getFollowInfoByAccount(Long accountId) {
-        AccountJpo accountJpo = accountRepository.findById(accountId)
+        Account account = accountRepository.findById(accountId)
                 .orElseThrow(() -> new InvalidAccountException("account doesn't exist."));
 
-        Account account = accountJpo.toDomain();
         List<Long> targetIdList = followRepository.findBySourceId(account.getIdx());
 
         List<Account> accountList = new ArrayList<>();
-        accountRepository.findAllById(targetIdList).forEach(jpo -> {
-            Account targetAccount = jpo.toDomain();
-            accountList.add(targetAccount);
-        });
+        accountRepository.findAllById(targetIdList).forEach(accountList::add);
         return accountList;
     }
 
