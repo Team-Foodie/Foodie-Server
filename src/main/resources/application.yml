@@ -1,9 +1,9 @@
 spring:
   datasource:
     driver-class-name: org.postgresql.Driver
-    url: jdbc:postgresql://foodie-develop.csbvgeckdsn4.ap-northeast-2.rds.amazonaws.com:5432/foodie
-    username: foodie
-    password: vnel1234
+    url: ${DB_URL:jdbc:postgresql://foodie-develop.csbvgeckdsn4.ap-northeast-2.rds.amazonaws.com:5432/foodie}
+    username: ${DB_USER:foodie}
+    password: ${DB_PWD:vnel1234}
 
   jpa:
     database: postgresql
