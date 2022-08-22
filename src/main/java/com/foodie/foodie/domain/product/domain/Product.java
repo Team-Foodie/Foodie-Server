@@ -17,14 +17,14 @@ import javax.persistence.Table;
 public class Product extends BaseEntity {
 
     @Column(columnDefinition = "VARCHAR(50)", nullable = false)
-    private String productName;
+    private String name;
 
     @Column(nullable = false)
-    private Integer productPrice;
+    private Integer price;
 
     @Builder
-    public Product(String productName, Integer productPrice) {
-        this.productName = productName;
-        this.productPrice = productPrice;
+    public Product(String name, Integer price) {
+        this.name = name;
+        this.price = price;
     }
 }
