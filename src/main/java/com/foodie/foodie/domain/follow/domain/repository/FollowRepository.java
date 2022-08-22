@@ -27,6 +27,6 @@ public interface FollowRepository extends CrudRepository<FollowJpo, Long> {
     void deleteBySourceAndTargetId(@Param("follow") Follow follow);
 
     @Modifying
-    @Query(nativeQuery = true, value = "select target_account_idx from follow where account_idx = :idx}")
-    List<Long> findBySourceId(Long idx);
+    @Query(nativeQuery = true, value = "select target_account_idx from follow where account_idx = :accountIdx")
+    List<Long> findBySourceId(@Param("accountIdx") Long accountIdx);
 }
