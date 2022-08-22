@@ -5,6 +5,7 @@ import com.foodie.foodie.api.follow.model.FollowResponse;
 import com.foodie.foodie.api.follow.service.FollowService;
 import com.foodie.foodie.common.model.RestResponseData;
 import com.foodie.foodie.common.model.ResultCode;
+import com.foodie.foodie.domain.account.domain.Account;
 import com.foodie.foodie.domain.follow.domain.Follow;
 import com.foodie.foodie.exception.InvalidAccountException;
 import lombok.RequiredArgsConstructor;
@@ -12,6 +13,8 @@ import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
+
+import java.util.List;
 
 @Slf4j
 @RestController
@@ -25,9 +28,10 @@ public class FollowController {
         log.info("FOLW:INFO:RQST::: 팔로우 정보 요청. accountId = ({})", accountId);
 
         try {
-            followService.getFollowInfoByAccount(accountId);
+            List<Account> followInfoByAccount = followService.getFollowInfoByAccount(accountId);
 
             FollowResponse followResponse = new FollowResponse();
+            followResponse.from(followInfoByAccount);
             log.info("FOLW:INFO:RESP::: 팔로우 정보 응답 성공. accountId = ({})", accountId);
             return new RestResponseData<>(ResultCode.SUCCESS, followResponse).buildResponseEntity(HttpStatus.OK);
         } catch (InvalidAccountException e) {
@@ -42,7 +46,11 @@ public class FollowController {
                                                         @RequestBody FollowToggleRequest followToggleRequest) {
         log.info("FOLW:TOGG:RQST::: 팔로우 추가/삭제 요청. accountId = ({}), request = ({})", accountId, followToggleRequest);
         Follow follow = followToggleRequest.toDomain();
-        followService.toggleFollow(follow);
-        return new RestResponseData<FollowResponse>(ResultCode.SUCCESS).buildResponseEntity(HttpStatus.OK);
+        boolean isAdded = followService.toggleFollow(follow);
+
+        FollowResponse followResponse = new FollowResponse();
+        followResponse.setIsAdded(String.valueOf(isAdded));
+        return new RestResponseData<>(ResultCode.SUCCESS, followResponse)
+                .buildResponseEntity(HttpStatus.OK);
     }
 }
