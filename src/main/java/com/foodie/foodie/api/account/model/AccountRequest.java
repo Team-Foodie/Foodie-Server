@@ -12,12 +12,6 @@ public class AccountRequest {
     private String introduction;
 
     public Account toDomain() {
-        Account account = new Account();
-        account.setEmail(email);
-        account.setPassword(password);
-        account.setName(name);
-        account.setNickname(nickname);
-        account.setIntroduction(introduction);
-        return account;
+        return new Account(email, password, name, nickname, introduction);
     }
 }

@@ -1,6 +1,6 @@
 package com.foodie.foodie.domain.follow.domain.jpo;
 
-import com.foodie.foodie.domain.account.domain.jpo.AccountJpo;
+import com.foodie.foodie.domain.account.domain.Account;
 import com.foodie.foodie.domain.follow.domain.Follow;
 import com.foodie.foodie.global.entity.BaseEntity;
 import lombok.AccessLevel;
@@ -17,16 +17,16 @@ public class FollowJpo extends BaseEntity {
 
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "account_idx", nullable = false)
-    private AccountJpo accountJpo;
+    private Account account;
 
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "target_account_idx", nullable = false)
-    private AccountJpo targetAccountJpo;
+    private Account targetAccount;
 
     public Follow toDomain() {
         Follow follow = new Follow();
-        follow.setAccountIdx(accountJpo.getIdx());
-        follow.setTargetAccountIdx(targetAccountJpo.getIdx());
+        follow.setAccountIdx(account.getIdx());
+        follow.setTargetAccountIdx(targetAccount.getIdx());
         return follow;
     }
 }
