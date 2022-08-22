@@ -1,9 +1,9 @@
 spring:
   datasource:
     driver-class-name: org.postgresql.Driver
-    url: {JDBC_URL}
-    username: {JDBC_USER}
-    password: {JDBC_PWD}
+    url: jdbc:postgresql://foodie-develop.csbvgeckdsn4.ap-northeast-2.rds.amazonaws.com:5432/foodie
+    username: foodie
+    password: vnel1234
 
   jpa:
     database: postgresql
@@ -13,4 +13,4 @@ spring:
       ddl-auto: validate
 
   jackson:
-    property-naming-strategy: SNAKE_CASE
+    property-naming-strategy: LOWER_CAMEL_CASE
