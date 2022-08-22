@@ -5,12 +5,16 @@ import com.foodie.foodie.domain.account.domain.jpo.AccountJpo;
 import com.foodie.foodie.domain.post.domain.Post;
 import com.foodie.foodie.global.entity.BaseEntity;
 import lombok.AccessLevel;
+
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import org.hibernate.annotations.ColumnDefault;
 import org.springframework.beans.BeanUtils;
 
 import javax.persistence.*;
+
+import javax.validation.constraints.NotNull;
+
 
 @Getter
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
@@ -24,7 +28,8 @@ public class PostJpo extends BaseEntity {
     @Column(columnDefinition = "TEXT", nullable = false)
     private String content;
 
-    @Column(columnDefinition = "TEXT")
+    @NotNull
+    @Column(columnDefinition = "TEXT", nullable = false)
     private String keywordList;
 
     @Column(columnDefinition = "VARCHAR(20)", nullable = false)
@@ -33,18 +38,18 @@ public class PostJpo extends BaseEntity {
     @Column(columnDefinition = "VARCHAR(20)", nullable = false)
     private String theme;
 
-    @Column(columnDefinition = "VARCHAR(20)")
+    @Column(columnDefinition = "VARCHAR(20)", nullable = false)
     private String localKeyword;
 
-    @Column(columnDefinition = "VARCHAR(255)")
-    private String imageUrl;
-
+    @NotNull
     @ColumnDefault("0")
     private Integer likeCount;
 
+    @NotNull
     @ColumnDefault("false")
     private Boolean isDiscount;
 
+    @NotNull
     @ColumnDefault("false")
     private Boolean isPopular;
 
