@@ -19,15 +19,35 @@ repositories {
 }
 
 dependencies {
+
+	// jpa
 	implementation 'org.springframework.boot:spring-boot-starter-data-jpa'
+
+	// validation
 	implementation 'org.springframework.boot:spring-boot-starter-validation'
+
+
+	// web
 	implementation 'org.springframework.boot:spring-boot-starter-web'
+
+	// lombok
 	compileOnly 'org.projectlombok:lombok'
-	runtimeOnly 'org.postgresql:postgresql'
 	annotationProcessor 'org.projectlombok:lombok'
+
+	// db connector
+	runtimeOnly 'org.postgresql:postgresql'
+
+	// test
 	testImplementation 'org.springframework.boot:spring-boot-starter-test'
+
+	//aws cloud
+	implementation 'org.springframework.cloud:spring-cloud-starter-aws:2.2.6.RELEASE'
+
+	// imgscalr
+	implementation group: 'org.imgscalr', name: 'imgscalr-lib', version: '4.2'
+
 }
 
-tasks.named('test') {
+test {
 	useJUnitPlatform()
 }
