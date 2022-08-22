@@ -21,7 +21,7 @@ public class PostAttachmentFileJpo extends BaseEntity {
 
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "post_idx", nullable = false)
-    private PostJpo post;
+    private PostJpo postJpo;
 
     @Column
     private Boolean isThumbnail;
