@@ -23,7 +23,9 @@ public class AccountController {
     public ResponseEntity<RestResponseData<AccountResponse>> insertAccount(@RequestBody AccountRequest accountRequest) {
 
         Account account = accountRequest.toDomain();
-        accountService.insertAccount(account);
-        return new RestResponseData<AccountResponse>(ResultCode.SUCCESS).buildResponseEntity(HttpStatus.OK);
+        Account savedAccount = accountService.insertAccount(account);
+        AccountResponse accountResponse = new AccountResponse();
+        accountResponse.from(savedAccount);
+        return new RestResponseData<>(ResultCode.SUCCESS, accountResponse).buildResponseEntity(HttpStatus.OK);
     }
 }
