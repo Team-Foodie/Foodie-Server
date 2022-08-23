@@ -26,6 +26,10 @@ public class PostController {
     private final PostService postService;
     private final PostContentService postContentService;
 
+    /**
+     * 홈 화면. 카테고리별 5개씩 응답.
+     * @return
+     */
     @GetMapping("")
     public ResponseEntity<RestResponseData<PostResponse>> getAllcategoriesPost() {
         log.info("POST:INFO:RQST::: 게시글 정보 요청.");
@@ -43,6 +47,12 @@ public class PostController {
         }
     }
 
+    /**
+     * 카테고리 클릭 시 해당 카테고리에 대한 게시글을 보여주는 API. 페이지별 12개씩.
+     * @param categoryType
+     * @param postRequest
+     * @return
+     */
     @GetMapping("{categoryType}")
     public ResponseEntity<RestResponseData<PostResponse>> getRecipeList(@PathVariable String categoryType,
                                                                         PostRequest postRequest) {
