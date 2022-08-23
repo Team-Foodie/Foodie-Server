@@ -1,6 +1,7 @@
 package com.foodie.foodie.domain.post.domain.repository;
 
 import com.foodie.foodie.domain.post.domain.Post;
+import org.springframework.data.domain.Pageable;
 import org.springframework.data.repository.CrudRepository;
 import org.springframework.stereotype.Repository;
 
@@ -15,6 +16,10 @@ public interface PostRepository extends CrudRepository<Post, Long> {
     List<Post> findByCategory(String type);
 
     List<Post> findByCategoryAndTheme(String type, String theme);
+
+    List<Post> findByAccountIdxAndCategory(Long accountId, String categoryType, Pageable pageable);
+
+    List<Post> findByAccountIdx(Long accountIdx, Pageable pageable);
 
 
 //    @Query(nativeQuery = true, value = "select * from post "

@@ -11,6 +11,7 @@ import com.foodie.foodie.exception.InvalidAccountException;
 import com.foodie.foodie.exception.InvalidCategoryTypeException;
 import com.foodie.foodie.exception.InvalidPostException;
 import lombok.RequiredArgsConstructor;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.util.StringUtils;
@@ -79,8 +80,8 @@ public class PostService {
         postContentRepository.saveAll(postContentItemList.stream().map(PostContentItem::toEntity)
                 .collect(Collectors.toList())).forEach(postContentList::add);
 
-        String contentOrder = String.join(",", postContentList.stream()
-                .map(postContent -> postContent.getIdx().toString()).collect(Collectors.toList()));
+        String contentOrder = postContentList.stream()
+                .map(postContent -> postContent.getIdx().toString()).collect(Collectors.joining(","));
         Post postInfo = postRepository.findById(postIdx).orElseThrow(() -> new InvalidPostException("post doesn't exist."));
         postInfo.setContentOrder(contentOrder);
         Post savedPost = postRepository.save(postInfo);
@@ -91,5 +92,21 @@ public class PostService {
                 new InvalidAccountException("account doesn't exist.")));
 
         return postItemResult;
+    }
+
+    public List<PostItem> getPostInfoByAccountAndCategoryType(Long accountIdx, String categoryType, Pageable pageable) {
+        // 모두 페이지일 경우.
+        if (!StringUtils.hasText(categoryType)) {
+            return postRepository.findByAccountIdx(accountIdx, pageable).stream().map(Post::toItem)
+                    .collect(Collectors.toList());
+        }
+
+        CategoryType type = CategoryType.findByPathName(categoryType);
+        if (type.equals(CategoryType.UNDEFINED)) {
+            throw new InvalidCategoryTypeException("categoryType doesn't exist.");
+        }
+
+        return postRepository.findByAccountIdxAndCategory(accountIdx, type.name(), pageable).stream().map(Post::toItem)
+                .collect(Collectors.toList());
     }
 }
