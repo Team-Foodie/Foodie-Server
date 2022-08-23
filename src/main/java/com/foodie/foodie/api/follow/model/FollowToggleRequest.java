@@ -5,13 +5,13 @@ import lombok.Getter;
 
 @Getter
 public class FollowToggleRequest {
-    private Long accountId;
-    private Long targetAccountId;
+    private Long accountIdx;
+    private Long targetAccountIdx;
 
     public Follow toDomain() {
         Follow follow = new Follow();
-        follow.setAccountIdx(accountId);
-        follow.setTargetAccountIdx(targetAccountId);
+        follow.setAccountIdx(accountIdx);
+        follow.setTargetAccountIdx(targetAccountIdx);
         return follow;
     }
 }
