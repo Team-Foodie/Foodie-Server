@@ -24,6 +24,7 @@ import java.util.List;
 public class Post {
 
     @Id
+    @Setter
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long idx;
 
