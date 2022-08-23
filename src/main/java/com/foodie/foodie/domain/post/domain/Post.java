@@ -1,18 +1,18 @@
 package com.foodie.foodie.domain.post.domain;
 
 
+import com.fasterxml.jackson.annotation.JsonManagedReference;
 import com.foodie.foodie.domain.account.domain.Account;
-import com.foodie.foodie.global.entity.BaseEntity;
-import lombok.AccessLevel;
+import lombok.*;
 
-import lombok.Builder;
-import lombok.Getter;
-import lombok.NoArgsConstructor;
 import org.hibernate.annotations.ColumnDefault;
+import org.springframework.data.annotation.CreatedDate;
+import org.springframework.data.annotation.LastModifiedDate;
 
 import javax.persistence.*;
 
 import javax.validation.constraints.NotNull;
+import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -21,7 +21,11 @@ import java.util.List;
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
 @Entity
 @Table(name = "post")
-public class Post extends BaseEntity {
+public class Post {
+
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    private Long idx;
 
     @Column(columnDefinition = "VARCHAR(60)", nullable = false)
     private String title;
@@ -47,14 +51,25 @@ public class Post extends BaseEntity {
     @JoinColumn(name = "account_idx", nullable = false)
     private Account account;
 
+    @Setter
     @Column(columnDefinition = "TEXT")
     private String contentOrder;
 
-    @OneToMany(mappedBy = "post")
+    @OneToMany(mappedBy = "post", fetch = FetchType.EAGER)
+    @JsonManagedReference
     private List<PostContent> postContentList = new ArrayList<>();
 
+    @CreatedDate
+    @Column(updatable = false)
+    private LocalDateTime createdAt;
+
+    @LastModifiedDate
+    private LocalDateTime updatedAt;
+
     @Builder
-    public Post(String title, String category, String theme, String keywordList, String localKeyword, Integer likeCount, Account account, String contentOrder, List<PostContent> postContentList) {
+    public Post(Long idx, String title, String category, String theme, String keywordList, String localKeyword,
+                Integer likeCount, Account account, String contentOrder, List<PostContent> postContentList, LocalDateTime createdAt) {
+        this.idx = idx;
         this.title = title;
         this.category = category;
         this.theme = theme;
@@ -64,5 +79,6 @@ public class Post extends BaseEntity {
         this.account = account;
         this.contentOrder = contentOrder;
         this.postContentList = postContentList;
+        this.createdAt = createdAt;
     }
 }

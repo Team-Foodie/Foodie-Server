@@ -5,6 +5,7 @@ import lombok.Setter;
 
 @Setter
 public class AccountRequest {
+    private Long idx;
     private String email;
     private String password;
     private String name;
@@ -12,6 +13,6 @@ public class AccountRequest {
     private String introduction;
 
     public Account toDomain() {
-        return new Account(email, password, name, nickname, introduction);
+        return new Account(idx, email, password, name, nickname, introduction);
     }
 }
