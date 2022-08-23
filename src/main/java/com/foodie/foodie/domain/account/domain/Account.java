@@ -1,18 +1,19 @@
 package com.foodie.foodie.domain.account.domain;
 
-import com.foodie.foodie.global.entity.BaseEntity;
 import lombok.*;
 
-import javax.persistence.Column;
-import javax.persistence.Entity;
-import javax.persistence.Table;
+import javax.persistence.*;
 
 @Getter
 @Setter
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
 @Entity
 @Table(name = "account")
-public class Account extends BaseEntity {
+public class Account {
+
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    private Long idx;
 
     @Column(columnDefinition = "VARCHAR(50)", nullable = false, unique = true)
     private String email;
@@ -30,7 +31,8 @@ public class Account extends BaseEntity {
     private String introduction;
 
     @Builder
-    public Account(String email, String password, String name, String nickname, String introduction) {
+    public Account(Long idx, String email, String password, String name, String nickname, String introduction) {
+        this.idx = idx;
         this.email = email;
         this.password = password;
         this.name = name;

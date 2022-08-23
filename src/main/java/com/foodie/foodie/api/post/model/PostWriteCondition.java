@@ -8,7 +8,7 @@ import java.util.List;
 public class PostWriteCondition {
     private String title;
     private String keywordList;
-    private String categoryType;
+    private String category;
     private String theme;
     private String localKeyword;
     private Integer likeCount;

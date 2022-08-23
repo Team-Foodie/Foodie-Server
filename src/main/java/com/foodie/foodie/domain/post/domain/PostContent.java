@@ -1,10 +1,8 @@
 package com.foodie.foodie.domain.post.domain;
 
+import com.fasterxml.jackson.annotation.JsonBackReference;
 import com.foodie.foodie.global.entity.BaseEntity;
-import lombok.AccessLevel;
-import lombok.Getter;
-import lombok.NoArgsConstructor;
-import org.springframework.beans.BeanUtils;
+import lombok.*;
 
 import javax.persistence.*;
 
@@ -15,6 +13,10 @@ import javax.persistence.*;
 @Table(name = "post_content")
 public class PostContent extends BaseEntity {
 
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    private Long idx;
+
     @Column(columnDefinition = "VARCHAR(10)", nullable = false)
     private String type;
 
@@ -22,18 +24,20 @@ public class PostContent extends BaseEntity {
     private String content;
 
     @Column
+    @Setter
     private Boolean isThumbnail;
 
-    @ManyToOne
+    @ManyToOne(fetch = FetchType.EAGER)
     @JoinColumn(name = "post_idx")
+    @JsonBackReference
     private Post post;
 
-    public void setPost(Post post) {
+    @Builder
+    public PostContent(Long idx, String type, String content, Boolean isThumbnail, Post post) {
+        this.idx = idx;
+        this.type = type;
+        this.content = content;
+        this.isThumbnail = isThumbnail;
         this.post = post;
     }
-
-    public PostContent(PostContent postContent) {
-        BeanUtils.copyProperties(postContent, this);
-    }
-
 }

@@ -1,18 +1,21 @@
 package com.foodie.foodie.api.post.controller;
 
 import com.foodie.foodie.api.post.model.*;
+import com.foodie.foodie.api.post.service.PostContentService;
 import com.foodie.foodie.api.post.service.PostService;
 import com.foodie.foodie.common.model.RestResponseData;
 import com.foodie.foodie.common.model.ResultCode;
 import com.foodie.foodie.domain.post.domain.Post;
 import com.foodie.foodie.exception.InvalidAccountException;
 import com.foodie.foodie.exception.InvalidCategoryTypeException;
+import com.foodie.foodie.exception.InvalidPostException;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.ArrayList;
 import java.util.List;
 
 @Slf4j
@@ -21,6 +24,7 @@ import java.util.List;
 @RequestMapping("/api/post")
 public class PostController {
     private final PostService postService;
+    private final PostContentService postContentService;
 
     @GetMapping("")
     public ResponseEntity<RestResponseData<PostResponse>> getAllcategoriesPost() {
@@ -47,7 +51,7 @@ public class PostController {
         try {
 
             PostCondition postCondition = postRequest.toCondition();
-            List<Post> postAllList = postService.getPostList(categoryType, postCondition);
+            List<PostItem> postAllList = postService.getPostList(categoryType, postCondition);
 
             PostResponse postResponse = new PostResponse();
             postResponse.from(postAllList);
@@ -66,7 +70,20 @@ public class PostController {
         log.info("POST:WRIT:RQST::: 게시글 작성 요청. categoryType = ({}), postWriteRequest = ({})",
                 categoryType, postWriteRequest);
 
-        return null;
+        try {
+            PostResponse postResponse = new PostResponse();
+            PostItem postItem = postWriteRequest.toItem();
+            List<PostItem> postItemList = new ArrayList<>();
+            postItemList.add(postService.savePost(postItem));
+            postResponse.from(postItemList);
 
+            log.info("POST:WRIT:RESP::: 게시글 작성 응답 성공. categoryType = ({}), postWriteRequest = ({})",
+                    categoryType, postWriteRequest);
+            return new RestResponseData<>(ResultCode.SUCCESS, postResponse).buildResponseEntity(HttpStatus.OK);
+        } catch (InvalidAccountException | InvalidPostException e) {
+            log.warn("POST:WRIT:RESP::: 올바르지 않은 정보. e = ({})", e);
+            return new RestResponseData<PostResponse>(ResultCode.INVALID_STATE)
+                    .buildResponseEntity(HttpStatus.BAD_REQUEST);
+        }
     }
 }
