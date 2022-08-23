@@ -2,10 +2,12 @@ package com.foodie.foodie.domain.post.domain;
 
 
 import com.fasterxml.jackson.annotation.JsonManagedReference;
+import com.foodie.foodie.api.post.model.PostItem;
 import com.foodie.foodie.domain.account.domain.Account;
 import lombok.*;
 
 import org.hibernate.annotations.ColumnDefault;
+import org.springframework.beans.BeanUtils;
 import org.springframework.data.annotation.CreatedDate;
 import org.springframework.data.annotation.LastModifiedDate;
 
@@ -81,5 +83,11 @@ public class Post {
         this.contentOrder = contentOrder;
         this.postContentList = postContentList;
         this.createdAt = createdAt;
+    }
+
+    public PostItem toItem() {
+        PostItem postItem = new PostItem();
+        BeanUtils.copyProperties(this, postItem);
+        return postItem;
     }
 }
