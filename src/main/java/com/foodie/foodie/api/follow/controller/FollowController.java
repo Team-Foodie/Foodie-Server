@@ -23,28 +23,33 @@ import java.util.List;
 public class FollowController {
     private final FollowService followService;
 
-    @GetMapping("{accountId}")
-    public ResponseEntity<RestResponseData<FollowResponse>> getFollowInfo(@PathVariable Long accountId) {
-        log.info("FOLW:INFO:RQST::: 팔로우 정보 요청. accountId = ({})", accountId);
+    /**
+     * 유저가 팔로잉 한 사람들의 게시글들을 응답해주는 API. 페이지별로 8개씩, 최근 게시물 순
+     * @param accountIdx
+     * @return
+     */
+    @GetMapping("{accountIdx}")
+    public ResponseEntity<RestResponseData<FollowResponse>> getFollowInfo(@PathVariable Long accountIdx) {
+        log.info("FOLW:INFO:RQST::: 팔로우 정보 요청. accountIdx = ({})", accountIdx);
 
         try {
-            List<Account> followInfoByAccount = followService.getFollowInfoByAccount(accountId);
+            List<Account> followInfoByAccount = followService.getFollowInfoByAccount(accountIdx);
 
             FollowResponse followResponse = new FollowResponse();
             followResponse.from(followInfoByAccount);
-            log.info("FOLW:INFO:RESP::: 팔로우 정보 응답 성공. accountId = ({})", accountId);
+            log.info("FOLW:INFO:RESP::: 팔로우 정보 응답 성공. accountIdx = ({})", accountIdx);
             return new RestResponseData<>(ResultCode.SUCCESS, followResponse).buildResponseEntity(HttpStatus.OK);
         } catch (InvalidAccountException e) {
-            log.info("FOLW:INFO:FAIL::: 존재하지 않는 계정 정보. accountId = ({})", accountId);
+            log.info("FOLW:INFO:FAIL::: 존재하지 않는 계정 정보. accountIdx = ({})", accountIdx);
             return new RestResponseData<FollowResponse>(ResultCode.INVALID_STATE)
                     .buildResponseEntity(HttpStatus.BAD_REQUEST);
         }
     }
 
-    @PostMapping("{accountId}")
-    public ResponseEntity<RestResponseData<FollowResponse>> insertAccount(@PathVariable Long accountId,
+    @PostMapping("{accountIdx}")
+    public ResponseEntity<RestResponseData<FollowResponse>> insertAccount(@PathVariable Long accountIdx,
                                                         @RequestBody FollowToggleRequest followToggleRequest) {
-        log.info("FOLW:TOGG:RQST::: 팔로우 추가/삭제 요청. accountId = ({}), request = ({})", accountId, followToggleRequest);
+        log.info("FOLW:TOGG:RQST::: 팔로우 추가/삭제 요청. accountIdx = ({}), request = ({})", accountIdx, followToggleRequest);
         Follow follow = followToggleRequest.toDomain();
         boolean isAdded = followService.toggleFollow(follow);
 
