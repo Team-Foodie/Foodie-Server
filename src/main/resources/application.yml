@@ -18,12 +18,6 @@ spring:
   devtools:
     livereload:
       enabled: true
-  web:
-    resources:
-      static-locations:
-        - file:src/main/resources/static
-  profiles:
-    active: local
 
 cloud:
   aws:
