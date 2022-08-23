@@ -22,7 +22,7 @@ public class Scrap {
     @Column(columnDefinition = "VARCHAR(20)", nullable = false)
     private String type;
 
-    @ManyToOne(fetch = FetchType.EAGER)
+    @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "account_idx", nullable = false)
     private Account account;
 
