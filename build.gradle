@@ -46,6 +46,9 @@ dependencies {
 	// imgscalr
 	implementation group: 'org.imgscalr', name: 'imgscalr-lib', version: '4.2'
 
+	// thumbnail
+	implementation group: 'net.coobird', name: 'thumbnailator', version: '0.4.11'
+
 }
 
 test {
