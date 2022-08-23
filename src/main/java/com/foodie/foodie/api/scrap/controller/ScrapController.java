@@ -55,7 +55,11 @@ public class ScrapController {
         }
     }
 
-
+    /**
+     * 스크랩 추가/삭제 API
+     * @param scrapRequest
+     * @return
+     */
     @PostMapping("")
     public ResponseEntity<RestResponseData<ScrapResponse>> toggleScrap(
             @RequestBody ScrapRequest scrapRequest) {
