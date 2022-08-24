@@ -24,7 +24,8 @@ public class PostItem {
     private String localKeyword;
     private Integer likeCount;
     private Account account;
-    private String contentOrder;
+    private String content;
+    private String imgUrlList;
     private List<PostContent> postContentList = new ArrayList<>();
     private LocalDateTime createdAt;
     private LocalDateTime updatedAt;
@@ -38,7 +39,8 @@ public class PostItem {
         this.localKeyword = post.getLocalKeyword();
         this.likeCount = post.getLikeCount();
         this.account = post.getAccount();
-        this.contentOrder = post.getContentOrder();
+        this.content = post.getContent();
+        this.imgUrlList = post.getImgUrlList();
         this.postContentList = post.getPostContentList();
         this.createdAt = post.getCreatedAt();
         this.updatedAt = post.getUpdatedAt();
@@ -46,12 +48,12 @@ public class PostItem {
 
     public Post toEntity() {
         return new Post(idx, title, category.toUpperCase(), theme, keywordList, localKeyword,
-                likeCount, account, contentOrder, postContentList, createdAt);
+                likeCount, account, content, imgUrlList, postContentList, createdAt);
     }
 
     @Builder
     public PostItem(Long idx, String title, String category, String theme, String keywordList, String localKeyword,
-                    Integer likeCount, Account account, String contentOrder, List<PostContent> postContentList,
+                    Integer likeCount, Account account, String content, String imgUrlList, List<PostContent> postContentList,
                     LocalDateTime createdAt, LocalDateTime updatedAt) {
         this.idx = idx;
         this.title = title;
@@ -61,7 +63,8 @@ public class PostItem {
         this.localKeyword = localKeyword;
         this.likeCount = likeCount;
         this.account = account;
-        this.contentOrder = contentOrder;
+        this.content = content;
+        this.imgUrlList = imgUrlList;
         this.postContentList = postContentList;
         this.createdAt = createdAt;
         this.updatedAt = updatedAt;

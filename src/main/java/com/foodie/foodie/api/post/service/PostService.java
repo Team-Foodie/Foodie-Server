@@ -97,15 +97,11 @@ public class PostService {
         postContentRepository.saveAll(postContentItemList.stream().map(PostContentItem::toEntity)
                 .collect(Collectors.toList())).forEach(postContentList::add);
 
-        String contentOrder = postContentList.stream()
-                .map(postContent -> postContent.getIdx().toString()).collect(Collectors.joining(","));
         Post postInfo = postRepository.findById(postIdx).orElseThrow(() -> new InvalidPostException("post doesn't exist."));
-        postInfo.setContentOrder(contentOrder);
-        Post savedPost = postRepository.save(postInfo);
 
-        PostItem postItemResult = new PostItem(savedPost);
+        PostItem postItemResult = new PostItem(postInfo);
         postItemResult.setPostContentList(postContentList);
-        postItemResult.setAccount(accountRepository.findById(savedPost.getAccount().getIdx()).orElseThrow(() ->
+        postItemResult.setAccount(accountRepository.findById(postInfo.getAccount().getIdx()).orElseThrow(() ->
                 new InvalidAccountException("account doesn't exist.")));
 
         return postItemResult;
