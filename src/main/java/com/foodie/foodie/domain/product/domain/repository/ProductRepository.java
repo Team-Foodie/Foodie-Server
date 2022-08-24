@@ -1,10 +1,13 @@
 package com.foodie.foodie.domain.product.domain.repository;
 
-import com.foodie.foodie.domain.product.domain.jpo.ProductJpo;
+import com.foodie.foodie.domain.product.domain.Product;
+import org.springframework.data.domain.Pageable;
 import org.springframework.data.repository.CrudRepository;
 import org.springframework.stereotype.Repository;
 
-@Repository
-public interface ProductRepository extends CrudRepository<ProductJpo, Long> {
+import java.util.List;
 
+@Repository
+public interface ProductRepository extends CrudRepository<Product, Long> {
+    List<Product> findAll(Pageable pageable);
 }
