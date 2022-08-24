@@ -28,43 +28,55 @@ public class PostService {
     private final PostRepository postRepository;
     private final PostContentRepository postContentRepository;
     private final AccountRepository accountRepository;
-    public List<Post> getAllcategoriesPost() {
-        return null;
+
+    public List<PostItem> getAllcategoriesPost(Pageable pageable) {
+        List<PostItem> postItemList = new ArrayList<>();
+        Arrays.stream(CategoryType.values()).filter(categoryType -> !categoryType.equals(CategoryType.UNDEFINED))
+                .forEach(categoryType ->
+                    postItemList.addAll(postRepository.findByCategory(categoryType.name(), pageable).stream()
+                            .map(Post::toItem).collect(Collectors.toList()))
+                );
+        return postItemList;
     }
 
-    public List<PostItem> getPostList(String type, PostCondition condition) {
+    public List<PostItem> getPostList(String type, PostCondition condition, Pageable pageable) {
         CategoryType categoryType = CategoryType.findByPathName(type);
         if (categoryType.equals(CategoryType.UNDEFINED)) {
             throw new InvalidCategoryTypeException("invalid categoryType.");
         }
 
-        // 테마 값 & 키워드 값이 존재할 때
-        if (StringUtils.hasText(condition.getKeyword()) && StringUtils.hasText(condition.getTheme())) {
-            List<Post> postThemeList = postRepository.findByCategoryAndTheme(categoryType.name(), condition.getTheme());
-
-            return postThemeList.stream().filter(post ->
-                    Arrays.stream(post.getKeywordList().split(","))
-                            .anyMatch(keyword -> keyword.equals(condition.getKeyword()))
-            ).collect(Collectors.toList()).stream().map(PostItem::new).collect(Collectors.toList());
-        }
-
         // 테마 값만 존재할 때
         if (StringUtils.hasText(condition.getTheme())) {
-            return postRepository.findByCategoryAndTheme(categoryType.name(), condition.getTheme()).stream().map(
-                    PostItem::new).collect(Collectors.toList());
-        }
-
-        // 키워드 값만 존재할 때
-        if (StringUtils.hasText(condition.getKeyword())) {
-            return postRepository.findByCategory(categoryType.name()).stream().filter(post -> Arrays.stream(post.getKeywordList().split(","))
-                    .anyMatch(keyword -> keyword.equals(condition.getKeyword()))).map(PostItem::new)
-                    .collect(Collectors.toList());
+            return postRepository.findByCategoryAndTheme(categoryType.name(), condition.getTheme(), pageable)
+                    .stream().map(PostItem::new).collect(Collectors.toList());
         }
 
         // 테마 값, 키워드 값 둘다 없을 때
-        return postRepository.findByCategory(categoryType.name()).stream().map(PostItem::new)
+        return postRepository.findByCategory(categoryType.name(), pageable).stream().map(PostItem::new)
                 .collect(Collectors.toList());
     }
+
+//    @Transactional
+//    public List<PostItem> searchPostList() {
+//
+//        // 테마 값 & 키워드 값이 존재할 때
+//        if (StringUtils.hasText(condition.getKeyword()) && StringUtils.hasText(condition.getTheme())) {
+//            List<Post> postThemeList = postRepository.findByCategoryAndTheme(
+//                    categoryType.name(), condition.getTheme(), pageable);
+//
+//            return postThemeList.stream().filter(post ->
+//                    Arrays.stream(post.getKeywordList().split(","))
+//                            .anyMatch(keyword -> keyword.equals(condition.getKeyword()))
+//            ).collect(Collectors.toList()).stream().map(PostItem::new).collect(Collectors.toList());
+//        }
+//
+//        // 키워드 값만 존재할 때
+//        if (StringUtils.hasText(condition.getKeyword())) {
+//            return postRepository.findByCategory(categoryType.name()).stream().filter(post -> Arrays.stream(post.getKeywordList().split(","))
+//                            .anyMatch(keyword -> keyword.equals(condition.getKeyword()))).map(PostItem::new)
+//                    .collect(Collectors.toList());
+//        }
+//    }
 
     @Transactional
     public PostItem savePost(PostItem postItem) {

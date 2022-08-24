@@ -13,9 +13,9 @@ public interface PostRepository extends CrudRepository<Post, Long> {
 
     Optional<Post> findByIdx(Long idx);
 
-    List<Post> findByCategory(String type);
+    List<Post> findByCategory(String type, Pageable pageable);
 
-    List<Post> findByCategoryAndTheme(String type, String theme);
+    List<Post> findByCategoryAndTheme(String type, String theme, Pageable pageable);
 
     List<Post> findByAccountIdxAndCategory(Long accountId, String categoryType, Pageable pageable);
 
