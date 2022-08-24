@@ -5,12 +5,14 @@ import com.foodie.foodie.api.post.service.PostContentService;
 import com.foodie.foodie.api.post.service.PostService;
 import com.foodie.foodie.common.model.RestResponseData;
 import com.foodie.foodie.common.model.ResultCode;
-import com.foodie.foodie.domain.post.domain.Post;
 import com.foodie.foodie.exception.InvalidAccountException;
 import com.foodie.foodie.exception.InvalidCategoryTypeException;
 import com.foodie.foodie.exception.InvalidPostException;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.data.domain.Pageable;
+import org.springframework.data.domain.Sort;
+import org.springframework.data.web.PageableDefault;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -31,13 +33,15 @@ public class PostController {
      * @return
      */
     @GetMapping("")
-    public ResponseEntity<RestResponseData<PostResponse>> getAllcategoriesPost() {
-        log.info("POST:INFO:RQST::: 게시글 정보 요청.");
+    public ResponseEntity<RestResponseData<PostResponse>> getAllcategoriesPost(Long accountIdx,
+            @PageableDefault(size = 5, sort = "idx", direction = Sort.Direction.DESC) Pageable pageable) {
+        log.info("POST:INFO:RQST::: 홈 화면 정보 요청.");
 
         try {
-            List<Post> postAllList = postService.getAllcategoriesPost();
+            List<PostItem> postAllList = postService.getAllcategoriesPost(pageable);
 
             PostResponse postResponse = new PostResponse();
+            postResponse.from(postAllList);
             log.info("POST:INFO:RESP::: 게시글 정보 응답 성공.");
             return new RestResponseData<>(ResultCode.SUCCESS, postResponse).buildResponseEntity(HttpStatus.OK);
         } catch (InvalidAccountException e) {
@@ -54,14 +58,15 @@ public class PostController {
      * @return
      */
     @GetMapping("{categoryType}")
-    public ResponseEntity<RestResponseData<PostResponse>> getRecipeList(@PathVariable String categoryType,
-                                                                        PostRequest postRequest) {
+    public ResponseEntity<RestResponseData<PostResponse>> getCategoryList(
+            @PathVariable String categoryType, PostRequest postRequest,
+            @PageableDefault(size = 12, sort = "idx", direction = Sort.Direction.DESC) Pageable pageable) {
         log.info("POST:INFO:RQST::: 게시글 정보 요청. categoryType = ({}), postRequest = ({})", categoryType, postRequest);
 
         try {
 
             PostCondition postCondition = postRequest.toCondition();
-            List<PostItem> postAllList = postService.getPostList(categoryType, postCondition);
+            List<PostItem> postAllList = postService.getPostList(categoryType, postCondition, pageable);
 
             PostResponse postResponse = new PostResponse();
             postResponse.from(postAllList);

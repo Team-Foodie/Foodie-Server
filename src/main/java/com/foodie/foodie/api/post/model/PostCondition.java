@@ -7,7 +7,5 @@ import lombok.Setter;
 @Setter
 public class PostCondition {
     private String theme;
-    private String keyword;
-    private String pageNum;
     private Long accountIdx;
 }
