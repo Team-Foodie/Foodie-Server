@@ -1,8 +1,8 @@
 package com.foodie.foodie.api.post.controller;
 
 import com.foodie.foodie.api.post.model.*;
-import com.foodie.foodie.api.post.service.PostContentService;
 import com.foodie.foodie.api.post.service.PostService;
+import com.foodie.foodie.api.post.service.ProductService;
 import com.foodie.foodie.common.model.RestResponseData;
 import com.foodie.foodie.common.model.ResultCode;
 import com.foodie.foodie.exception.InvalidAccountException;
@@ -26,10 +26,10 @@ import java.util.List;
 @RequestMapping("/api/post")
 public class PostController {
     private final PostService postService;
-    private final PostContentService postContentService;
+    private final ProductService productService;
 
     /**
-     * 홈 화면. 카테고리별 5개씩 응답.
+     * 홈 화면. 제품 조회, 카테고리별 5개씩 응답.
      * @return
      */
     @GetMapping("")
@@ -38,9 +38,11 @@ public class PostController {
         log.info("POST:INFO:RQST::: 홈 화면 정보 요청.");
 
         try {
+            List<ProductItem> productItemList = productService.getProductList(pageable);
             List<PostItem> postAllList = postService.getAllcategoriesPost(pageable);
 
             PostResponse postResponse = new PostResponse();
+            postResponse.putProductItemListFrom(productItemList);
             postResponse.from(postAllList);
             log.info("POST:INFO:RESP::: 게시글 정보 응답 성공.");
             return new RestResponseData<>(ResultCode.SUCCESS, postResponse).buildResponseEntity(HttpStatus.OK);
