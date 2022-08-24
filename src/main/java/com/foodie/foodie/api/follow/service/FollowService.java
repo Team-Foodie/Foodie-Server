@@ -1,5 +1,7 @@
 package com.foodie.foodie.api.follow.service;
 
+import com.foodie.foodie.api.post.model.PostItem;
+import com.foodie.foodie.api.post.service.PostService;
 import com.foodie.foodie.domain.account.domain.Account;
 import com.foodie.foodie.domain.account.domain.repository.AccountRepository;
 import com.foodie.foodie.domain.follow.domain.Follow;
@@ -8,6 +10,7 @@ import com.foodie.foodie.domain.follow.domain.repository.FollowRepository;
 import com.foodie.foodie.exception.InvalidAccountException;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -20,15 +23,16 @@ import java.util.List;
 public class FollowService {
     private final AccountRepository accountRepository;
     private final FollowRepository followRepository;
-    public List<Account> getFollowInfoByAccount(Long accountId) {
+    private final PostService postService;
+    public List<PostItem> getFollowInfoByAccount(Long accountId, Pageable pageable) {
         Account account = accountRepository.findById(accountId)
                 .orElseThrow(() -> new InvalidAccountException("account doesn't exist."));
 
         List<Long> targetIdList = followRepository.findBySourceId(account.getIdx());
 
-        List<Account> accountList = new ArrayList<>();
-        accountRepository.findAllById(targetIdList).forEach(accountList::add);
-        return accountList;
+        return postService.getPostListByAccountIdxList(targetIdList, pageable);
+//        List<Account> accountList = new ArrayList<>();
+//        accountRepository.findAllById(targetIdList).forEach(accountList::add);
     }
 
 
