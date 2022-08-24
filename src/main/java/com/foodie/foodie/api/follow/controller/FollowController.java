@@ -3,13 +3,16 @@ package com.foodie.foodie.api.follow.controller;
 import com.foodie.foodie.api.follow.model.FollowToggleRequest;
 import com.foodie.foodie.api.follow.model.FollowResponse;
 import com.foodie.foodie.api.follow.service.FollowService;
+import com.foodie.foodie.api.post.model.PostItem;
 import com.foodie.foodie.common.model.RestResponseData;
 import com.foodie.foodie.common.model.ResultCode;
-import com.foodie.foodie.domain.account.domain.Account;
 import com.foodie.foodie.domain.follow.domain.Follow;
 import com.foodie.foodie.exception.InvalidAccountException;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.data.domain.Pageable;
+import org.springframework.data.domain.Sort;
+import org.springframework.data.web.PageableDefault;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -29,14 +32,15 @@ public class FollowController {
      * @return
      */
     @GetMapping("{accountIdx}")
-    public ResponseEntity<RestResponseData<FollowResponse>> getFollowInfo(@PathVariable Long accountIdx) {
-        log.info("FOLW:INFO:RQST::: 팔로우 정보 요청. accountIdx = ({})", accountIdx);
+    public ResponseEntity<RestResponseData<FollowResponse>> getPostListByFollowInfo(@PathVariable Long accountIdx,
+            @PageableDefault(size = 8, sort = "idx", direction = Sort.Direction.DESC) Pageable pageable) {
+        log.info("FOLW:INFO:RQST::: 팔로우한 사람들의 게시글 정보 요청. accountIdx = ({})", accountIdx);
 
         try {
-            List<Account> followInfoByAccount = followService.getFollowInfoByAccount(accountIdx);
+            List<PostItem> postItemList = followService.getFollowInfoByAccount(accountIdx, pageable);
 
             FollowResponse followResponse = new FollowResponse();
-            followResponse.from(followInfoByAccount);
+            followResponse.putPostItemListFrom(postItemList);
             log.info("FOLW:INFO:RESP::: 팔로우 정보 응답 성공. accountIdx = ({})", accountIdx);
             return new RestResponseData<>(ResultCode.SUCCESS, followResponse).buildResponseEntity(HttpStatus.OK);
         } catch (InvalidAccountException e) {

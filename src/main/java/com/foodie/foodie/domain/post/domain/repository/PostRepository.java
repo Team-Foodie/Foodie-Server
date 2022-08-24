@@ -21,6 +21,8 @@ public interface PostRepository extends CrudRepository<Post, Long> {
 
     List<Post> findByAccountIdx(Long accountIdx, Pageable pageable);
 
+    List<Post> findByAccountIdxIn(List<Long> accountIdxList, Pageable pageable);
+
 
 //    @Query(nativeQuery = true, value = "select * from post "
 //            + "where account_idx = :#{#follow.getAccountIdx()} and target_account_idx = :#{#follow.getTargetAccountIdx()}")
