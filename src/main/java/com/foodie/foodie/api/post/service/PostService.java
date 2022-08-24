@@ -56,6 +56,11 @@ public class PostService {
                 .collect(Collectors.toList());
     }
 
+    public List<PostItem> getPostListByAccountIdxList(List<Long> accountIdxList, Pageable pageable) {
+        return postRepository.findByAccountIdxIn(accountIdxList, pageable).stream().map(Post::toItem)
+                .collect(Collectors.toList());
+    }
+
 //    @Transactional
 //    public List<PostItem> searchPostList() {
 //
