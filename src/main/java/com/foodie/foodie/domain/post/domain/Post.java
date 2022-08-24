@@ -56,7 +56,13 @@ public class Post {
 
     @Setter
     @Column(columnDefinition = "TEXT")
-    private String contentOrder;
+    private String content;
+
+    @Column(columnDefinition = "TEXT")
+    private String imgUrlList;
+
+    @Column(columnDefinition = "TEXT")
+    private String thumbUrl;
 
     @OneToMany(mappedBy = "post", fetch = FetchType.EAGER)
     @JsonManagedReference
@@ -71,7 +77,7 @@ public class Post {
 
     @Builder
     public Post(Long idx, String title, String category, String theme, String keywordList, String localKeyword,
-                Integer likeCount, Account account, String contentOrder, List<PostContent> postContentList, LocalDateTime createdAt) {
+                Integer likeCount, Account account, String content, String imgUrlList, List<PostContent> postContentList, LocalDateTime createdAt) {
         this.idx = idx;
         this.title = title;
         this.category = category;
@@ -80,7 +86,8 @@ public class Post {
         this.localKeyword = localKeyword;
         this.likeCount = likeCount;
         this.account = account;
-        this.contentOrder = contentOrder;
+        this.content = content;
+        this.imgUrlList = imgUrlList;
         this.postContentList = postContentList;
         this.createdAt = createdAt;
     }
